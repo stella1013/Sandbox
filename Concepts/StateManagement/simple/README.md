@@ -1,0 +1,1 @@
+https://dev.to/vijaypushkin/dead-simple-state-management-in-vanilla-javascript-24p0
