@@ -1,0 +1,22 @@
+{
+    "name": "@stella1013/simple-shadowdom",
+    "version": "1.0.0",
+    "description": "Implementing a reusable pattern for webcomponents in typescript",
+    "main": "main.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+      "TypeScript",
+      "Web",
+      "Components",
+      "shadowDOM"
+    ],
+    "author": "Veronica Preston",
+    "license": "ISC",
+    "devDependencies": {
+      "@types/jsdom": "^16.2.14",
+      "jsdom": "^20.0.0"
+    }
+  }
+  
