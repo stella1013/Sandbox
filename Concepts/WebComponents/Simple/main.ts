@@ -1,15 +1,19 @@
 import { JSDOM } from 'jsdom';
-const MYDOM = new JSDOM(`
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <title><%= htmlWebpackPlugin.options.title %></title>
-    </head>
-    <body>
-        <div id="app"></div>
-    </body>
-    </html>
-`);
+import { createElement } from 'parse5/lib/tree-adapters/default';
+declare global {
+    namespace NodeJS {
+        interface Global {
+            document: Document;
+            window: Window;
+            navigator: Navigator;
+        }
+    }
+}
+
+const { window } = new JSDOM('<!doctype html><html><body><div id="app"></div></body></html>');
+global.document = window.document;
+
+
 
 
  class A extends HTMLElement{
@@ -18,12 +22,14 @@ const MYDOM = new JSDOM(`
 
     constructor(){
         super();
-        MYDOM.
-        MYDOM.attachShadow({ mode: 'open' });
-        MYDOM.shadowRoot.appendChild(this.element);
+        this.element = document.createElement('div');
+
+        this.attachShadow({ mode: 'open' });
+        this.shadowRoot!.appendChild(this.element);
     }
+
     async connectedCallback() {
-		MYDOM.appendChild(this.element);
+		this.appendChild(this.element);
 	} 
 	
 
@@ -35,7 +41,10 @@ customElements.define('custom-div', A);
 class Main {
     
     constructor(){
-        MYDOM.createElement('custom-div');
+      let container = global.document.getElementById('app');
+      let myDiv = global.document.createElement('custom-div');
+      container!.appendChild(myDiv);
+      console.log(global.document);
     }
 }
 new Main();
