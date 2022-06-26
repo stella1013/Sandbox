@@ -1,35 +1,22 @@
 import { JSDOM } from 'jsdom';
-import { createElement } from 'parse5/lib/tree-adapters/default';
-declare global {
-    namespace NodeJS {
-        interface Global {
-            document: Document;
-            window: Window;
-            navigator: Navigator;
-        }
-    }
-}
 
-const { window } = new JSDOM('<!doctype html><html><body><div id="app"></div></body></html>');
-global.document = window.document;
-
-
-
+//mock DOM/headless browser
+const dom = new JSDOM(`<!DOCTYPE html><div id="app"></div>`);
+const {document, HTMLElement, HTMLDivElement, customElements} = dom.window;
 
  class A extends HTMLElement{
-     element:HTMLDivElement;
-
+     private _element:HTMLDivElement;
 
     constructor(){
         super();
-        this.element = document.createElement('div');
+        this._element = document.createElement('div');
 
         this.attachShadow({ mode: 'open' });
-        this.shadowRoot!.appendChild(this.element);
+        this.shadowRoot!.appendChild(this._element);
     }
-
+    
     async connectedCallback() {
-		this.appendChild(this.element);
+		this.appendChild(this._element);
 	} 
 	
 
@@ -39,12 +26,13 @@ customElements.define('custom-div', A);
  * @class Main
  */
 class Main {
-    
+   public container:HTMLDivElement;
+   public myDiv:A;
     constructor(){
-      let container = global.document.getElementById('app');
-      let myDiv = global.document.createElement('custom-div');
-      container!.appendChild(myDiv);
-      console.log(global.document);
+      this.container = document.getElementById('app') as HTMLDivElement;
+      this.myDiv = document.createElement('custom-div') as A;
+      this.container!.appendChild(this.myDiv);
+      console.log(document.body.innerHTML);
     }
 }
 new Main();
