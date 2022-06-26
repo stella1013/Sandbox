@@ -5,7 +5,7 @@
     "main": "main.js",
     "scripts": {
         "start": "ts-node main.ts",
-        "commit": "cz | git push",
+        "commit": "cz",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "keywords": [
