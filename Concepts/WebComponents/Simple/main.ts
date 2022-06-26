@@ -30,6 +30,8 @@ class Main {
 		this.container = document.getElementById('app') as HTMLDivElement;
 		this.myDiv = document.createElement('custom-div') as A;
 		this.container!.appendChild(this.myDiv);
+
+    this.output();
 	}
 /**
  * outputs to console
