@@ -1,30 +1,35 @@
 import { JSDOM } from 'jsdom';
-const MYDOM = new JSDOM(`
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <title><%= htmlWebpackPlugin.options.title %></title>
-    </head>
-    <body>
-        <div id="app"></div>
-    </body>
-    </html>
-`);
+
+//mock DOM/headless browser
+const dom = new JSDOM(`<!DOCTYPE html><div id="app"></div>`);
+const { document, HTMLElement, HTMLDivElement, customElements } = dom.window;
 /**
  * @abstract
  * @class B
  * @template T
  */
-abstract class B <T extends HTMLElement> {
+abstract class B <T extends HTMLElement> extends HTMLElement {
     element: T;
 
-    constructor(elementType:string, dom:JSDOM){
-        this.element = <T>document.createElement(elementType);
-        console.log(B);
+    constructor(componentType:string) {
+        super();
+        this.element = <T>document.createElement(componentType);
+
+        this.attachShadow({ mode: 'open' });
+		this.shadowRoot!.appendChild(this.element);
+       
         
-        dom.attachShadow({ mode: 'open' });
-        dom.shadowRoot.appendChild(this.element);
-    }
+		
+	}
+
+    async connectedCallback() {
+		this.appendChild(this.element);
+	}
+
+   /*  disconnectedCallback() {}
+ 
+    attributeChangedCallback(attrName:string, oldVal:string, newVal:string){} */
+	
 
 }
 /**
@@ -32,22 +37,46 @@ abstract class B <T extends HTMLElement> {
  * @extends {B<HTMLDivElement>}
  */
 class A extends B<HTMLDivElement>{
-    constructor(DOM:JSDOM, componentType:string){
-        super(componentType, DOM); 
-    }
-
-}
-/**
- * @class Main
- */
-class Main {
-    component:A;
-   
+    //element:HTMLDivElement;
+    
     constructor(){
-        this.component = new A(MYDOM, 'div');
-        this.component.setAttribute('title', 'hello');
+        const componentType:string = 'div';
+        super(componentType); 
+       // this.element = document.createElement(componentType) as HTMLDivElement;      
     }
+   
+}
+customElements.define('custom-div', A);
+class C extends B<HTMLButtonElement>{
+    //element:HTMLDivElement;
+    
+    constructor(){
+        const componentType:string = 'div';
+        super(componentType); 
+       // this.element = document.createElement(componentType) as HTMLDivElement;      
+    }
+   
+}
+customElements.define('custom-button', C);
+
+class Main {
+	public container: HTMLDivElement;
+	public myDiv: A;
+    public myButton: C;
+
+ constructor() {
+		this.container = document.getElementById('app') as HTMLDivElement;
+		this.myDiv = new A();
+        this.myButton = new C();
+		this.container!.appendChild(this.myDiv);
+		this.container!.appendChild(this.myButton);
+
+
+    this.output();
+	}
+
+output(): void {
+		console.log(document.body.innerHTML);
+	}
 }
 new Main();
-
-
