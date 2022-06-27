@@ -1,21 +1,35 @@
 {
   "name": "@stella1013/webcomponents",
   "version": "1.0.0",
-  "description": "Implementing a reusable pattern for webcomponents in typescript",
+  "description": "Implementing a reusable pattern by use of Generics for webcomponents in typescript",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+      "start": "ts-node main.ts",
+      "commit": "cz",
+      "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "TypeScript",
-    "Web",
-    "Components",
-    "shadowDOM"
+      "TypeScript",
+      "Web",
+      "Components",
+      "shadowDOM"
   ],
   "author": "Veronica Preston",
   "license": "ISC",
   "devDependencies": {
-    "@types/jsdom": "^16.2.14",
-    "jsdom": "^20.0.0"
+      "@types/jsdom": "^16.2.14",
+      "cz-conventional-changelog": "^3.0.1",
+      "husky": "^8.0.1",
+      "jsdom": "^20.0.0"
+  },
+  "config": {
+      "commitizen": {
+          "path": "cz-conventional-changelog"
+      },
+      "husky": {
+          "hooks": {
+              "prepare-commit-msg": "exec < /dev/tty && npx cz --hook || true"
+          }
+      }
   }
 }
