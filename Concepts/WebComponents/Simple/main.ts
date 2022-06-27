@@ -20,24 +20,19 @@ class A extends HTMLElement {
 	}
 }
 customElements.define('custom-div', A);
-/**
- * @class Main
- */
+
 class Main {
 	public container: HTMLDivElement;
 	public myDiv: A;
-	constructor() {
+
+ constructor() {
 		this.container = document.getElementById('app') as HTMLDivElement;
 		this.myDiv = document.createElement('custom-div') as A;
 		this.container!.appendChild(this.myDiv);
 
     this.output();
 	}
-/**
- * outputs to console
- *
- * @memberof Main
- */
+
 output(): void {
 		console.log(document.body.innerHTML);
 	}
