@@ -1,0 +1,32 @@
+{
+    "name": "@stella1013/simple-factory",
+    "version": "1.0.0",
+    "description": "Implementing the Factory Pattern in typescript",
+    "main": "main.js",
+    "scripts": {
+        "start": "ts-node main.ts",
+        "commit": "cz",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "TypeScript"
+    ],
+    "author": "Veronica Preston",
+    "license": "ISC",
+    "devDependencies": {
+        "@types/jsdom": "^16.2.14",
+        "cz-conventional-changelog": "^3.0.1",
+        "husky": "^8.0.1",
+        "jsdom": "^20.0.0"
+    },
+    "config": {
+        "commitizen": {
+            "path": "cz-conventional-changelog"
+        },
+        "husky": {
+            "hooks": {
+                "prepare-commit-msg": "exec < /dev/tty && npx cz --hook || true"
+            }
+        }
+    }
+}
